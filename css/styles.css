@@ -11434,3 +11434,62 @@ section#contact form#contactForm :-ms-input-placeholder {
 .swiper-button-prev:hover {
   color: #0056b3;
 }
+
+/* Zoom Overlay */
+.image-zoom-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: zoom-out;
+}
+
+.image-zoom-overlay.active {
+  opacity: 1;
+}
+
+.image-zoom-overlay img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 10px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+.image-zoom-overlay img:hover {
+  transform: scale(1.03);
+}
+
+/* Tombol Navigasi */
+.image-zoom-prev,
+.image-zoom-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 40px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  transition: 0.3s;
+  padding: 10px 20px;
+}
+
+.image-zoom-prev:hover,
+.image-zoom-next:hover {
+  color: #aaa;
+}
+
+.image-zoom-prev {
+  left: 20px;
+}
+.image-zoom-next {
+  right: 20px;
+}
