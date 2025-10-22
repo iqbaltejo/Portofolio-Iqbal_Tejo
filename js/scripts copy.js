@@ -66,10 +66,81 @@ window.addEventListener('DOMContentLoaded', event => {
     const modalImg = document.getElementById("modalImage");
     const closeBtn = document.getElementsByClassName("image-close"[0]);
 
-    document.querySelectorAll(".project-gallery img").forEach(img => {
-        img.addEventListener("click", function() {
-            modal.style.display = "block";
-            modalImg.src = this.src;
+    // Image Zoom + Slide
+    const galleries = document.querySelectorAll('.project-gallery');
+
+    galleries.forEach(gallery => {
+        const images = gallery.querySelectorAll ('img');
+        let currentIndex = 0;
+
+        images.forEach((img, index)=> {
+            img.addEventListener("click", function() {  
+                 currentIndex = index;
+
+                  // Buat overlay
+                const overlay = document.createElement('div');
+                overlay.classList.add('image-zoom-overlay');
+
+                // Gambar besar
+                const zoomedImg = document.createElement('img');
+                zoomedImg.src = img.src;
+                overlay.appendChild(zoomedImg);
+
+                // Tombol navigasi
+                const prevBtn = document.createElement('div');
+                prevBtn.classList.add('image-zoom-prev');
+                prevBtn.innerHTML = '&#10094;'; // panah kiri
+                const nextBtn = document.createElement('div');
+                nextBtn.classList.add('image-zoom-next');
+                nextBtn.innerHTML = '&#10095;'; // panah kanan
+
+                overlay.appendChild(prevBtn);
+                overlay.appendChild(nextBtn);
+                document.body.appendChild(overlay);
+
+                setTimeout(() => overlay.classList.add('active'), 10);
+
+                // Fungsi update gambar
+                const updateImage = () => {
+                    zoomedImg.src = images[currentIndex].src;
+                };
+
+                // Tombol prev
+                prevBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    updateImage();
+                });
+
+                // Tombol next
+                nextBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    currentIndex = (currentIndex + 1) % images.length;
+                    updateImage();
+                });
+
+                // Tutup klik luar
+                overlay.addEventListener('click', (e) => {
+                    if (e.target === overlay) {
+                        overlay.classList.remove('active');
+                        setTimeout(() => overlay.remove(), 300);
+                    }
+                });
+
+                // Tutup pakai ESC
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        overlay.classList.remove('active');
+                        setTimeout(() => overlay.remove(), 300);
+                    } else if (e.key === 'ArrowLeft') {
+                        currentIndex = (currentIndex - 1 + images.length) % images.length;
+                        updateImage();
+                    } else if (e.key === 'ArrowRight') {
+                        currentIndex = (currentIndex + 1) % images.length;
+                        updateImage();
+                    }
+                }, { once: true });
+            });
         });
     });
 
