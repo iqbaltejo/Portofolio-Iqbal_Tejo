@@ -1,0 +1,80 @@
+/* Custom Styling untuk Pop Up */
+
+/* Text di kiri */
+.modal-body p,
+.project-gallery p,
+.modal-body .item-intro {
+    text-align: left !important;
+    margin-left: 0 !important;
+}
+
+/* paragraf fit ke mobile phone */
+.modal-body p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Gambar swiper tidak terlalu kecil */
+.project-gallery img {
+    width: calc(50% - 10px);
+    max-width: 48%;
+    height: auto;
+    object-fit: contain;
+    margin: 10px auto;
+    display: block;
+}
+
+/* Mempertahankan swiper rapi */
+@media (max-width: 768px) {
+    .modal-body p {
+        font-size: 0.95rem;
+    }
+    .project-gallery img {
+        max-width: 100%;
+    }
+}
+
+.project-gallery ul {
+    text-align: left !important;
+    margin-left: 0rem;
+    padding-left: 0rem;
+}
+
+.project-gallery li {
+    margin-bottom: 4px;
+    line-height: 1.6;
+}
+
+.project-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start; /*gambar dari kiri */
+    gap: 15px;
+    text-align: left;
+}
+
+.project-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+
+.section-block {
+  margin-bottom: 10px;
+}
+
+.section-block h5 {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.section-block ul {
+  padding-left: 0px;
+  margin-top: 0;
+}
+
+.section-block li {
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
