@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Project Case Study — IT Portfolio" />
+  <title>Project Detail — IT Portfolio</title>
+
+  <!-- =========================================================
+       GOOGLE FONTS
+       Display: Syne (geometric, sharp, memorable)
+       Body:    DM Sans (clean, modern, readable)
+  ========================================================= -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =============================================================
+       SECTION 1 — CSS CUSTOM PROPERTIES (DESIGN TOKENS)
+       Match these to your main portfolio theme to keep cohesion.
+    ============================================================= */
+    :root {
+      /* Brand colours — cream & white light theme */
+      --clr-bg:          #faf8f4;        /* Page background — warm cream  */
+      --clr-surface:     #ffffff;        /* Card / section background     */
+      --clr-surface-2:   #f3f0ea;        /* Slightly warmer surface       */
+      --clr-border:      #e6e0d4;        /* Subtle warm dividers          */
+      --clr-accent:      #5b6af5;        /* Primary accent — indigo       */
+      --clr-accent-glow: rgba(91,106,245,.12);
+      --clr-accent-2:    #c0522a;        /* Secondary accent — terracotta */
+      --clr-text:        #2d2a24;        /* Body copy — rich dark brown   */
+      --clr-text-muted:  #8c8070;        /* Labels, captions — warm grey  */
+      --clr-heading:     #1a1714;        /* Section headings — near black */
+
+      /* Typography */
+      --font-display: 'Syne', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+
+      /* Spacing scale */
+      --sp-xs:  0.5rem;
+      --sp-sm:  1rem;
+      --sp-md:  1.5rem;
+      --sp-lg:  2.5rem;
+      --sp-xl:  4rem;
+      --sp-2xl: 6rem;
+
+      /* Radii */
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+
+      /* Motion */
+      --ease-out-expo: cubic-bezier(.16,1,.3,1);
+      --transition-fast: 160ms var(--ease-out-expo);
+      --transition-med:  340ms var(--ease-out-expo);
+      --transition-slow: 600ms var(--ease-out-expo);
+    }
+
+    /* =============================================================
+       SECTION 2 — RESET & BASE
+    ============================================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--clr-bg);
+      color: var(--clr-text);
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    ul, ol { list-style: none; }
+
+    a {
+      color: var(--clr-accent);
+      text-decoration: none;
+    }
+
+    ::selection {
+      background: var(--clr-accent);
+      color: #fff;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--clr-bg); }
+    ::-webkit-scrollbar-thumb { background: #c8bfb0; border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a89e90; }
+
+    /* =============================================================
+       SECTION 3 — LAYOUT UTILITIES
+    ============================================================= */
+    .container {
+      width: min(72rem, 100% - 3rem);
+      margin-inline: auto;
+    }
+
+    .section-gap {
+      padding-block: var(--sp-xl);
+    }
+
+    @media (min-width: 768px) {
+      .section-gap {
+        padding-block: var(--sp-2xl);
+      }
+    }
+
+    /* =============================================================
+       SECTION 4 — FLOATING NAV / BACK BUTTON
+    ============================================================= */
+    .floating-nav {
+      position: fixed;
+      top: var(--sp-md);
+      left: var(--sp-md);
+      z-index: 900;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+      padding: 0.55em 1.1em;
+      background: rgba(250,248,244,.88);
+      border: 1px solid var(--clr-border);
+      border-radius: 99px;
+      color: var(--clr-text);
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition:
+        background var(--transition-med),
+        border-color var(--transition-med),
+        color var(--transition-med),
+        transform var(--transition-med),
+        box-shadow var(--transition-med);
+      white-space: nowrap;
+    }
+
+    .back-btn svg {
+      width: 16px;
+      height: 16px;
+      transition: transform var(--transition-med);
+      flex-shrink: 0;
+    }
+
+    .back-btn:hover,
+    .back-btn:focus-visible {
+      background: var(--clr-accent);
+      border-color: var(--clr-accent);
+      color: #fff;
+      box-shadow: 0 0 0 4px var(--clr-accent-glow), 0 8px 24px rgba(91,106,245,.2);
+      transform: translateY(-2px);
+      outline: none;
+    }
+
+    .back-btn:hover svg {
+      transform: translateX(-3px);
+    }
+
+    /* =============================================================
+       SECTION 5 — HERO
+    ============================================================= */
+    .hero {
+      position: relative;
+      padding-top: clamp(7rem, 15vw, 10rem);
+      padding-bottom: var(--sp-xl);
+      overflow: hidden;
+    }
+
+    /* Decorative background mesh */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 20%, rgba(91,106,245,.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(192,82,42,.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5em;
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      margin-bottom: var(--sp-sm);
+    }
+
+    .hero-eyebrow span {
+      width: 2rem;
+      height: 1px;
+      background: currentColor;
+      display: inline-block;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 800;
+      color: var(--clr-heading);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      max-width: 18ch;
+      margin-bottom: var(--sp-sm);
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--clr-accent);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--clr-text-muted);
+      font-weight: 300;
+      max-width: 55ch;
+      margin-bottom: var(--sp-lg);
+    }
+
+    /* Metadata chips */
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--sp-xs);
+    }
+
+    .meta-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4em;
+      padding: 0.35em 0.85em;
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      color: var(--clr-text-muted);
+      font-family: var(--font-display);
+      font-weight: 600;
+    }
+
+    .meta-chip strong {
+      color: var(--clr-text);
+      font-weight: 600;
+    }
+
+    .meta-chip .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--clr-accent);
+      flex-shrink: 0;
+    }
+
+    /* =============================================================
+       SECTION 6 — SECTION HEADER (REUSABLE)
+    ============================================================= */
+    .section-header {
+      margin-bottom: var(--sp-lg);
+    }
+
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      margin-bottom: 0.5em;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      color: var(--clr-heading);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+
+    /* =============================================================
+       SECTION 7 — CONTEXT & CHALLENGE
+    ============================================================= */
+    .context-grid {
+      display: grid;
+      gap: var(--sp-md);
+    }
+
+    @media (min-width: 768px) {
+      .context-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--sp-lg);
+      }
+    }
+
+    .context-card {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-md);
+      padding: var(--sp-md) var(--sp-lg);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(100,80,50,.06);
+    }
+
+    .context-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--clr-accent), transparent);
+    }
+
+    .context-card h3 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--clr-heading);
+      margin-bottom: 0.75em;
+    }
+
+    .context-card p {
+      font-size: 0.95rem;
+      color: var(--clr-text-muted);
+      line-height: 1.8;
+    }
+
+    /* =============================================================
+       SECTION 8 — TECHNICAL IMPLEMENTATION
+    ============================================================= */
+    .tech-section {
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      padding: var(--sp-lg);
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(100,80,50,.07);
+    }
+
+    @media (min-width: 768px) {
+      .tech-section { padding: var(--sp-xl); }
+    }
+
+    .tech-steps {
+      display: grid;
+      gap: var(--sp-md);
+      margin-top: var(--sp-md);
+    }
+
+    @media (min-width: 640px) {
+      .tech-steps { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (min-width: 1024px) {
+      .tech-steps { grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    .tech-step {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6em;
+    }
+
+    .step-num {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--clr-accent);
+      text-transform: uppercase;
+    }
+
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--clr-heading);
+    }
+
+    .step-desc {
+      font-size: 0.88rem;
+      color: var(--clr-text-muted);
+      line-height: 1.75;
+    }
+
+    /* Code-like tag list */
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4em;
+      margin-top: 0.5em;
+    }
+
+    .tag {
+      padding: 0.2em 0.6em;
+      background: var(--clr-surface-2);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-family: 'Courier New', monospace;
+      color: var(--clr-accent);
+    }
+
+    /* Horizontal rule inside section */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--clr-border);
+      margin-block: var(--sp-lg);
+    }
+
+    /* =============================================================
+       SECTION 9 — IMPACT & METRICS (CALLOUT BOXES)
+    ============================================================= */
+    .metrics-grid {
+      display: grid;
+      gap: var(--sp-sm);
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      margin-bottom: var(--sp-lg);
+    }
+
+    .metric-card {
+      position: relative;
+      background: var(--clr-surface);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-md);
+      padding: var(--sp-md) var(--sp-lg) var(--sp-md);
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(100,80,50,.06);
+      transition: transform var(--transition-med), border-color var(--transition-med), box-shadow var(--transition-med);
+    }
+
+    .metric-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(91,106,245,.07), transparent 70%);
+      transition: opacity var(--transition-med);
+    }
+
+    .metric-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--clr-accent);
+      box-shadow: 0 0 0 1px var(--clr-accent), 0 16px 40px rgba(91,106,245,.12);
+    }
+
+    .metric-card:hover::after { opacity: 1; }
+
+    .metric-card.accent-2:hover {
+      border-color: var(--clr-accent-2);
+      box-shadow: 0 0 0 1px var(--clr-accent-2), 0 16px 40px rgba(192,82,42,.10);
+    }
+
+    .metric-card.accent-2 .metric-value { color: var(--clr-accent-2); }
+
+    .metric-value {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      color: var(--clr-accent);
+      line-height: 1;
+      letter-spacing: -0.03em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .metric-label {
+      font-size: 0.85rem;
+      color: var(--clr-text-muted);
+      margin-top: 0.4em;
+      font-weight: 400;
+      position: relative;
+      z-index: 1;
+    }
+
+    .metric-delta {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.15em 0.5em;
+      border-radius: 4px;
+      margin-top: 0.5em;
+      background: rgba(22,163,74,.10);
+      color: #15803d;
+      position: relative;
+      z-index: 1;
+    }
+
+    .metric-delta.down {
+      background: rgba(220,38,38,.10);
+      color: #b91c1c;
+    }
+
+    /* Outcome narrative box */
+    .outcome-box {
+      background: var(--clr-surface);
+      border-left: 3px solid var(--clr-accent);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: var(--sp-md) var(--sp-lg);
+    }
+
+    .outcome-box p {
+      font-size: 1.05rem;
+      color: var(--clr-text);
+      line-height: 1.8;
+    }
+
+    /* =============================================================
+       SECTION 10 — MEDIA GALLERY (GRID + LIGHTBOX)
+    ============================================================= */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--sp-sm);
+    }
+
+    @media (min-width: 480px) {
+      .gallery-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (min-width: 900px) {
+      .gallery-grid { grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    /* A wide "featured" card can span 2 columns */
+    .gallery-item.wide {
+      grid-column: 1 / -1;
+    }
+
+    @media (min-width: 900px) {
+      .gallery-item.wide { grid-column: span 2; }
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;           /* Keep zoom-in inside the card */
+      background: var(--clr-surface-2);
+      border: 1px solid var(--clr-border);
+      cursor: zoom-in;
+      aspect-ratio: 16 / 9;
+      box-shadow: 0 2px 12px rgba(100,80,50,.08);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 420ms var(--ease-out-expo);
+    }
+
+    /* Zoom-in on hover — transform stays inside the overflow:hidden parent */
+    @media (hover: hover) {
+      .gallery-item:hover img { transform: scale(1.06); }
+      .gallery-item:hover .gallery-overlay { opacity: 1; }
+    }
+
+    /* Touch fallback — activate overlay on :active */
+    .gallery-item:active .gallery-overlay { opacity: 1; }
+
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(26,23,20,.80) 0%,
+        rgba(26,23,20,.08) 60%,
+        transparent 100%
+      );
+      display: flex;
+      align-items: flex-end;
+      padding: var(--sp-sm) var(--sp-md);
+      opacity: 0;
+      transition: opacity var(--transition-med);
+    }
+
+    .gallery-caption {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,.9);
+      font-weight: 500;
+    }
+
+    .gallery-zoom-icon {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      width: 32px;
+      height: 32px;
+      background: rgba(255,255,255,.12);
+      backdrop-filter: blur(6px);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    .gallery-zoom-icon svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ---- LIGHTBOX ---- */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(20,18,14,.94);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--sp-sm);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 300ms ease, visibility 300ms ease;
+    }
+
+    .lightbox.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox-inner {
+      position: relative;
+      max-width: min(1100px, 100%);
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      transform: scale(0.94);
+      transition: transform 360ms var(--ease-out-expo);
+    }
+
+    .lightbox.is-open .lightbox-inner {
+      transform: scale(1);
+    }
+
+    .lightbox-img {
+      width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+      box-shadow: 0 40px 100px rgba(0,0,0,.7);
+    }
+
+    .lightbox-caption {
+      font-size: 0.85rem;
+      color: var(--clr-text-muted);
+      text-align: center;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -0.5rem;
+      right: -0.5rem;
+      width: 40px;
+      height: 40px;
+      background: var(--clr-surface-2);
+      border: 1px solid var(--clr-border);
+      border-radius: 50%;
+      color: var(--clr-text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+      z-index: 2;
+    }
+
+    .lightbox-close:hover,
+    .lightbox-close:focus-visible {
+      background: var(--clr-accent-2);
+      color: #fff;
+      transform: scale(1.1) rotate(90deg);
+      outline: none;
+    }
+
+    .lightbox-close svg {
+      width: 18px;
+      height: 18px;
+      pointer-events: none;
+    }
+
+    /* Lightbox prev/next arrows */
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,.10);
+      border: 1px solid var(--clr-border);
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--clr-text);
+      cursor: pointer;
+      transition: background var(--transition-fast), color var(--transition-fast);
+      backdrop-filter: blur(6px);
+    }
+
+    .lightbox-nav:hover { background: var(--clr-accent); color: #fff; }
+    .lightbox-nav svg { width: 20px; height: 20px; pointer-events: none; }
+    .lightbox-nav.prev { left: -3.5rem; }
+    .lightbox-nav.next { right: -3.5rem; }
+
+    @media (max-width: 700px) {
+      .lightbox-nav.prev { left: 0.25rem; }
+      .lightbox-nav.next { right: 0.25rem; }
+    }
+
+    /* =============================================================
+       SECTION 11 — FOOTER (MINIMAL)
+    ============================================================= */
+    .page-footer {
+      padding-block: var(--sp-xl);
+      border-top: 1px solid var(--clr-border);
+      text-align: center;
+    }
+
+    .page-footer p {
+      font-size: 0.82rem;
+      color: var(--clr-text-muted);
+    }
+
+    .page-footer a {
+      color: var(--clr-accent);
+      font-weight: 600;
+    }
+
+    /* =============================================================
+       SECTION 12 — SCROLL-REVEAL ANIMATIONS
+       Elements start invisible; JS adds .revealed once in viewport.
+    ============================================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 640ms var(--ease-out-expo),
+        transform 640ms var(--ease-out-expo);
+    }
+
+    .reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger children inside a .reveal-group */
+    .reveal-group .reveal:nth-child(1) { transition-delay: 0ms;   }
+    .reveal-group .reveal:nth-child(2) { transition-delay: 80ms;  }
+    .reveal-group .reveal:nth-child(3) { transition-delay: 160ms; }
+    .reveal-group .reveal:nth-child(4) { transition-delay: 240ms; }
+    .reveal-group .reveal:nth-child(5) { transition-delay: 320ms; }
+    .reveal-group .reveal:nth-child(6) { transition-delay: 400ms; }
+
+    /* =============================================================
+       SECTION 13 — PROGRESS BAR (page-scroll indicator)
+    ============================================================= */
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--clr-accent), var(--clr-accent-2));
+      z-index: 1000;
+      transition: width 80ms linear;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress" role="progressbar" aria-label="Page scroll progress"></div>
+
+  <!-- ============================================================
+       FLOATING NAV
+  ============================================================= -->
+  <nav class="floating-nav" aria-label="Page navigation">
+    <a href="index.html" class="back-btn">
+      <!-- Arrow left icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+           aria-hidden="true">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Back to Portfolio
+    </a>
+  </nav>
+
+  <!-- ============================================================
+       HERO SECTION
+  ============================================================= -->
+  <header class="hero">
+    <div class="container">
+
+      <p class="hero-eyebrow reveal">
+        <span aria-hidden="true"></span>
+        Infrastructure &amp; Automation
+      </p>
+
+      <h1 class="hero-title reveal">
+        Network <em>Modernisation</em> &amp; Zero-Touch Deployment
+      </h1>
+
+      <p class="hero-subtitle reveal">
+        End-to-end redesign of a legacy on-premises network, migrating 200+ devices to a fully
+        automated, policy-driven infrastructure with 99.97 % uptime SLA.
+      </p>
+
+      <!-- Metadata chips -->
+      <div class="meta-row reveal" role="list" aria-label="Project metadata">
+        <span class="meta-chip" role="listitem">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Date</span>
+          <strong>Jan – Jun 2024</strong>
+        </span>
+        <span class="meta-chip" role="listitem">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Role</span>
+          <strong>Network Architect</strong>
+        </span>
+        <span class="meta-chip" role="listitem">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Stack</span>
+          <strong>Cisco IOS-XE · Ansible · Python · Zabbix</strong>
+        </span>
+        <span class="meta-chip" role="listitem">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Status</span>
+          <strong>Live ✓</strong>
+        </span>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ============================================================
+       SECTION — PROJECT CONTEXT & CHALLENGE
+  ============================================================= -->
+  <section class="section-gap" aria-labelledby="context-heading">
+    <div class="container">
+
+      <header class="section-header reveal">
+        <p class="section-label">01 — Context</p>
+        <h2 class="section-title" id="context-heading">The Problem to Solve</h2>
+      </header>
+
+      <div class="context-grid reveal-group">
+
+        <article class="context-card reveal">
+          <h3>Background</h3>
+          <p>
+            The client operated a sprawling campus network built in 2011 — a flat, unmanaged Layer 2
+            topology with no segmentation, no monitoring, and manual configuration across 14 switches
+            and 6 access-point clusters. VLAN inconsistencies caused broadcast storms twice a month,
+            grinding productivity to a halt and impacting 350+ end users.
+          </p>
+        </article>
+
+        <article class="context-card reveal">
+          <h3>Core Challenge</h3>
+          <p>
+            Redesign and migrate the entire infrastructure with zero unplanned downtime during
+            business hours, while building a repeatable, version-controlled automation pipeline
+            so future changes can be deployed in minutes — not hours — by a small IT team with
+            no dedicated network engineers on staff.
+          </p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION — TECHNICAL IMPLEMENTATION
+  ============================================================= -->
+  <section class="section-gap" aria-labelledby="tech-heading">
+    <div class="container">
+
+      <header class="section-header reveal">
+        <p class="section-label">02 — Implementation</p>
+        <h2 class="section-title" id="tech-heading">Technical Approach</h2>
+      </header>
+
+      <div class="tech-section reveal">
+
+        <div class="tech-steps reveal-group">
+
+          <div class="tech-step reveal">
+            <span class="step-num">Step 01</span>
+            <p class="step-title">Discovery &amp; Baseline Audit</p>
+            <p class="step-desc">
+              Used SNMP polling and CDP/LLDP data collection via Python scripts to auto-generate
+              a full network topology map, exposing undocumented device relationships and rogue
+              switch ports.
+            </p>
+            <div class="tag-list" aria-label="Tools used">
+              <span class="tag">Python</span>
+              <span class="tag">SNMP</span>
+              <span class="tag">CDP/LLDP</span>
+            </div>
+          </div>
+
+          <div class="tech-step reveal">
+            <span class="step-num">Step 02</span>
+            <p class="step-title">Hierarchical Design &amp; VLAN Architecture</p>
+            <p class="step-desc">
+              Designed a three-tier collapsed-core topology with 8 named VLANs, HSRP redundancy,
+              and private VLANs for server isolation — all modelled in GNS3 before physical
+              deployment.
+            </p>
+            <div class="tag-list" aria-label="Tools used">
+              <span class="tag">GNS3</span>
+              <span class="tag">Cisco IOS-XE</span>
+              <span class="tag">HSRP</span>
+            </div>
+          </div>
+
+          <div class="tech-step reveal">
+            <span class="step-num">Step 03</span>
+            <p class="step-title">Ansible Automation &amp; Git Workflow</p>
+            <p class="step-desc">
+              Wrote 42 idempotent Ansible playbooks for interface configs, VLAN provisioning, and
+              NTP/AAA hardening. All playbooks version-controlled in GitLab with CI linting on
+              every push.
+            </p>
+            <div class="tag-list" aria-label="Tools used">
+              <span class="tag">Ansible</span>
+              <span class="tag">GitLab CI</span>
+              <span class="tag">NAPALM</span>
+            </div>
+          </div>
+
+          <div class="tech-step reveal">
+            <span class="step-num">Step 04</span>
+            <p class="step-title">Phased Cut-Over &amp; Rollback Plan</p>
+            <p class="step-desc">
+              Executed migration in four weekend phases using maintenance windows. Each phase
+              had a tested 15-minute rollback playbook so risk was bounded and stakeholder
+              confidence remained high.
+            </p>
+            <div class="tag-list" aria-label="Tools used">
+              <span class="tag">Change Mgmt</span>
+              <span class="tag">Runbooks</span>
+            </div>
+          </div>
+
+          <div class="tech-step reveal">
+            <span class="step-num">Step 05</span>
+            <p class="step-title">Monitoring &amp; Alerting Stack</p>
+            <p class="step-desc">
+              Deployed Zabbix with 220 SNMP-based host items and custom trigger thresholds.
+              Grafana dashboards visualise real-time traffic per VLAN; PagerDuty handles
+              on-call escalation.
+            </p>
+            <div class="tag-list" aria-label="Tools used">
+              <span class="tag">Zabbix</span>
+              <span class="tag">Grafana</span>
+              <span class="tag">PagerDuty</span>
+            </div>
+          </div>
+
+          <div class="tech-step reveal">
+            <span class="step-num">Step 06</span>
+            <p class="step-title">Documentation &amp; Handover</p>
+            <p class="step-desc">
+              Delivered a full Confluence wiki: topology diagrams, VLAN register, playbook
+              usage guides, and a "Day 2" runbook for common tasks — enabling junior staff to
+              manage the network independently.
+            </p>
+            <div class="tag-list" aria-label="Tools used">
+              <span class="tag">Confluence</span>
+              <span class="tag">draw.io</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION — IMPACT & METRICS
+  ============================================================= -->
+  <section class="section-gap" aria-labelledby="metrics-heading">
+    <div class="container">
+
+      <header class="section-header reveal">
+        <p class="section-label">03 — Results</p>
+        <h2 class="section-title" id="metrics-heading">Impact &amp; Key Metrics</h2>
+      </header>
+
+      <!-- KPI callout boxes -->
+      <div class="metrics-grid reveal-group" role="list" aria-label="Key performance indicators">
+
+        <article class="metric-card reveal" role="listitem">
+          <div class="metric-value" data-target="99.97" data-suffix="%" aria-label="99.97% uptime">0%</div>
+          <p class="metric-label">Network Uptime (post-migration)</p>
+          <span class="metric-delta">▲ +3.2 pp vs baseline</span>
+        </article>
+
+        <article class="metric-card accent-2 reveal" role="listitem">
+          <div class="metric-value" data-target="94" data-suffix="%" aria-label="94% reduction">0%</div>
+          <p class="metric-label">Reduction in Broadcast Storms</p>
+          <span class="metric-delta">from 8/month → 0.5/month</span>
+        </article>
+
+        <article class="metric-card reveal" role="listitem">
+          <div class="metric-value" data-target="12" data-suffix="min" aria-label="12 minutes">0</div>
+          <p class="metric-label">Avg. Config Deployment Time</p>
+          <span class="metric-delta">▼ from 4.5 hrs manually</span>
+        </article>
+
+        <article class="metric-card accent-2 reveal" role="listitem">
+          <div class="metric-value" data-target="42" data-suffix="" aria-label="42 playbooks">0</div>
+          <p class="metric-label">Ansible Playbooks Written</p>
+          <span class="metric-delta">100% idempotent</span>
+        </article>
+
+        <article class="metric-card reveal" role="listitem">
+          <div class="metric-value" data-target="350" data-suffix="+" aria-label="350+ users">0</div>
+          <p class="metric-label">End Users Impacted</p>
+          <span class="metric-delta">zero complaints post-go-live</span>
+        </article>
+
+        <article class="metric-card accent-2 reveal" role="listitem">
+          <div class="metric-value" data-target="0" data-suffix="" aria-label="0 rollbacks">–</div>
+          <p class="metric-label">Emergency Rollbacks Required</p>
+          <span class="metric-delta">4 flawless cut-over phases</span>
+        </article>
+
+      </div>
+
+      <!-- Narrative outcome -->
+      <blockquote class="outcome-box reveal">
+        <p>
+          The modernised network reduced total IT incident tickets by <strong>41 %</strong> in the
+          first quarter post-launch. The automation pipeline cut change-implementation time from
+          an average of 4.5 hours to under 12 minutes, freeing the IT team for higher-value
+          work and reducing after-hours work by roughly 6 hours per week.
+        </p>
+      </blockquote>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION — MEDIA GALLERY
+  ============================================================= -->
+  <section class="section-gap" aria-labelledby="gallery-heading">
+    <div class="container">
+
+      <header class="section-header reveal">
+        <p class="section-label">04 — Gallery</p>
+        <h2 class="section-title" id="gallery-heading">Project Screenshots</h2>
+      </header>
+
+      <!--
+        GALLERY GRID
+        Replace the src attributes and data-caption values with your real screenshots.
+        Add class="wide" to any .gallery-item to make it span 2 columns on desktop.
+      -->
+      <div class="gallery-grid reveal-group" role="list" aria-label="Project screenshots">
+
+        <figure class="gallery-item wide reveal"
+                role="listitem"
+                tabindex="0"
+                data-src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200"
+                data-caption="Full topology diagram after migration — three-tier collapsed-core"
+                aria-label="Open screenshot: Full topology diagram">
+          <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800"
+               alt="Network topology overview diagram showing all switches, VLANs and uplinks"
+               loading="lazy" />
+          <figcaption class="gallery-overlay">
+            <span class="gallery-caption">Full Topology Diagram</span>
+            <span class="gallery-zoom-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item reveal"
+                role="listitem"
+                tabindex="0"
+                data-src="https://images.unsplash.com/photo-1551703599-6b3e8379aa8c?w=1200"
+                data-caption="Zabbix monitoring dashboard — real-time VLAN traffic"
+                aria-label="Open screenshot: Zabbix monitoring dashboard">
+          <img src="https://images.unsplash.com/photo-1551703599-6b3e8379aa8c?w=600"
+               alt="Zabbix monitoring dashboard showing network traffic graphs"
+               loading="lazy" />
+          <figcaption class="gallery-overlay">
+            <span class="gallery-caption">Zabbix Monitoring Dashboard</span>
+            <span class="gallery-zoom-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item reveal"
+                role="listitem"
+                tabindex="0"
+                data-src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=1200"
+                data-caption="Ansible playbook run — automated VLAN provisioning across 14 switches"
+                aria-label="Open screenshot: Ansible playbook run">
+          <img src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=600"
+               alt="Terminal window showing Ansible playbook execution with OK and CHANGED tasks"
+               loading="lazy" />
+          <figcaption class="gallery-overlay">
+            <span class="gallery-caption">Ansible Playbook Run</span>
+            <span class="gallery-zoom-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item reveal"
+                role="listitem"
+                tabindex="0"
+                data-src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1200"
+                data-caption="Physical rack after cut-over — all patch panels and switches labelled"
+                aria-label="Open screenshot: Physical rack after cut-over">
+          <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600"
+               alt="Server rack with neatly organised cabling, switches and patch panels"
+               loading="lazy" />
+          <figcaption class="gallery-overlay">
+            <span class="gallery-caption">Physical Rack — Post Cut-Over</span>
+            <span class="gallery-zoom-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+            </span>
+          </figcaption>
+        </figure>
+
+        <figure class="gallery-item reveal"
+                role="listitem"
+                tabindex="0"
+                data-src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200"
+                data-caption="Grafana uptime and packet-loss trends — 90-day post-migration view"
+                aria-label="Open screenshot: Grafana uptime trends">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600"
+               alt="Grafana dashboard showing uptime percentage and packet loss over 90 days"
+               loading="lazy" />
+          <figcaption class="gallery-overlay">
+            <span class="gallery-caption">Grafana — 90-Day Uptime Trends</span>
+            <span class="gallery-zoom-icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+            </span>
+          </figcaption>
+        </figure>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PAGE FOOTER
+  ============================================================= -->
+  <footer class="page-footer">
+    <div class="container">
+      <p>
+        Part of <a href="index.html">IT Portfolio</a> by
+        <strong>Your Name</strong> &mdash;
+        <a href="index.html">View all projects →</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       LIGHTBOX OVERLAY (injected by JS; kept in markup for
+       semantic completeness and progressive enhancement)
+  ============================================================= -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true"
+       aria-label="Image lightbox" aria-hidden="true">
+    <div class="lightbox-inner">
+
+      <button class="lightbox-close" id="lightboxClose" aria-label="Close image viewer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous image">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+
+      <img class="lightbox-img" id="lightboxImg" src="" alt="" />
+
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+
+      <button class="lightbox-nav next" id="lightboxNext" aria-label="Next image">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+
+    </div>
+  </div>
+
+  <!-- ============================================================
+       JAVASCRIPT
+  ============================================================= -->
+  <script>
+    /* ============================================================
+       JS SECTION A — SCROLL PROGRESS BAR
+       Updates a CSS width on the thin top bar as the user scrolls.
+    ============================================================ */
+    (function initScrollProgress() {
+      const bar = document.getElementById('scrollProgress');
+      if (!bar) return;
+
+      function updateProgress() {
+        const scrollTop  = window.scrollY || document.documentElement.scrollTop;
+        const docHeight  = document.documentElement.scrollHeight - window.innerHeight;
+        const pct        = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+        bar.style.width  = pct + '%';
+        bar.setAttribute('aria-valuenow', Math.round(pct));
+      }
+
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      updateProgress(); // initialise
+    })();
+
+
+    /* ============================================================
+       JS SECTION B — SCROLL-REVEAL OBSERVER
+       Adds .revealed to any .reveal element once it enters viewport.
+    ============================================================ */
+    (function initReveal() {
+      const targets = document.querySelectorAll('.reveal');
+      if (!targets.length) return;
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              observer.unobserve(entry.target); // fire once
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+      );
+
+      targets.forEach((el) => observer.observe(el));
+    })();
+
+
+    /* ============================================================
+       JS SECTION C — ANIMATED KPI COUNTERS
+       Reads data-target (number) and data-suffix from each
+       .metric-value element, then animates from 0 on first view.
+    ============================================================ */
+    (function initCounters() {
+      const counters = document.querySelectorAll('.metric-value[data-target]');
+      if (!counters.length) return;
+
+      function easeOutQuad(t) { return t * (2 - t); }
+
+      function animateCounter(el) {
+        const target  = parseFloat(el.dataset.target);
+        const suffix  = el.dataset.suffix || '';
+        const duration = 1400; // ms
+        const start   = performance.now();
+
+        // Check if target is 0 — display dash immediately
+        if (target === 0) {
+          el.textContent = '0' + suffix;
+          return;
+        }
+
+        function step(now) {
+          const elapsed  = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased    = easeOutQuad(progress);
+          const current  = target * eased;
+
+          // Format: show one decimal if target has a decimal
+          const formatted = Number.isInteger(target)
+            ? Math.round(current).toLocaleString()
+            : current.toFixed(2);
+
+          el.textContent = formatted + suffix;
+
+          if (progress < 1) requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      // Trigger each counter when it enters view
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateCounter(entry.target);
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      counters.forEach((el) => obs.observe(el));
+    })();
+
+
+    /* ============================================================
+       JS SECTION D — GALLERY LIGHTBOX
+       Handles opening, closing, navigation (prev/next + keyboard),
+       backdrop click to close, and swipe gesture on touch screens.
+    ============================================================ */
+    (function initLightbox() {
+      const lightbox     = document.getElementById('lightbox');
+      const lightboxImg  = document.getElementById('lightboxImg');
+      const lightboxCap  = document.getElementById('lightboxCaption');
+      const closeBtn     = document.getElementById('lightboxClose');
+      const prevBtn      = document.getElementById('lightboxPrev');
+      const nextBtn      = document.getElementById('lightboxNext');
+
+      if (!lightbox || !lightboxImg) return;
+
+      // Collect all gallery items that have a high-res src
+      const galleryItems = Array.from(
+        document.querySelectorAll('.gallery-item[data-src]')
+      );
+
+      let currentIndex = 0;
+      let previousFocus = null; // for focus restoration on close
+
+      // ---- Helpers ----
+      function openLightbox(index) {
+        currentIndex  = index;
+        previousFocus = document.activeElement;
+
+        const item    = galleryItems[currentIndex];
+        lightboxImg.src = item.dataset.src;
+        lightboxImg.alt = item.querySelector('img')?.alt || '';
+        lightboxCap.textContent = item.dataset.caption || '';
+
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+
+        // Focus management for accessibility
+        closeBtn.focus();
+
+        // Show / hide nav arrows
+        updateNavVisibility();
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+
+        // Restore focus to the gallery item that opened the lightbox
+        if (previousFocus) previousFocus.focus();
+
+        // Small delay before clearing src to avoid flicker during fade-out
+        setTimeout(() => {
+          lightboxImg.src = '';
+          lightboxImg.alt = '';
+        }, 350);
+      }
+
+      function showImage(index) {
+        if (index < 0 || index >= galleryItems.length) return;
+        currentIndex = index;
+        const item = galleryItems[currentIndex];
+
+        // Fade out → swap src → fade in
+        lightboxImg.style.opacity = '0';
+        lightboxImg.style.transform = 'scale(0.96)';
+
+        setTimeout(() => {
+          lightboxImg.src = item.dataset.src;
+          lightboxImg.alt = item.querySelector('img')?.alt || '';
+          lightboxCap.textContent = item.dataset.caption || '';
+
+          lightboxImg.style.opacity  = '1';
+          lightboxImg.style.transform = 'scale(1)';
+          updateNavVisibility();
+        }, 180);
+      }
+
+      function updateNavVisibility() {
+        prevBtn.style.display = currentIndex === 0 ? 'none' : '';
+        nextBtn.style.display = currentIndex === galleryItems.length - 1 ? 'none' : '';
+      }
+
+      // ---- Add transition styles to img for swap animation ----
+      lightboxImg.style.transition = 'opacity 180ms ease, transform 180ms ease';
+
+      // ---- Open on click / Enter / Space ----
+      galleryItems.forEach((item, idx) => {
+        item.addEventListener('click', () => openLightbox(idx));
+
+        item.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openLightbox(idx);
+          }
+        });
+      });
+
+      // ---- Close button ----
+      closeBtn.addEventListener('click', closeLightbox);
+
+      // ---- Navigation buttons ----
+      prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+      nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+
+      // ---- Backdrop click to close ----
+      lightbox.addEventListener('click', (e) => {
+        // Only close if clicking the backdrop itself, not the inner content
+        if (e.target === lightbox) closeLightbox();
+      });
+
+      // ---- Keyboard navigation ----
+      document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('is-open')) return;
+
+        switch (e.key) {
+          case 'Escape':
+            closeLightbox();
+            break;
+          case 'ArrowLeft':
+            showImage(currentIndex - 1);
+            break;
+          case 'ArrowRight':
+            showImage(currentIndex + 1);
+            break;
+        }
+      });
+
+      // ---- Touch / swipe support ----
+      let touchStartX = 0;
+      const SWIPE_THRESHOLD = 50; // px
+
+      lightbox.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      lightbox.addEventListener('touchend', (e) => {
+        const delta = e.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(delta) < SWIPE_THRESHOLD) return;
+
+        if (delta < 0) {
+          showImage(currentIndex + 1); // swipe left → next
+        } else {
+          showImage(currentIndex - 1); // swipe right → prev
+        }
+      }, { passive: true });
+    })();
+  </script>
+
+</body>
+</html>
