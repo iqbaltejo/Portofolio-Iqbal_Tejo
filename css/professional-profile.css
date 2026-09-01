@@ -1,0 +1,133 @@
+/* Scoped Stylesheet khusus untuk Section Professional Profile */
+
+.profile-section {
+    padding: 6rem 0;
+    background-color: #ffffff;
+}
+
+.profile-header {
+    margin-bottom: 3.5rem;
+}
+
+/* Kustomisasi Desain Nav Pills Minimalis */
+.resume-navigation {
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 1rem;
+    gap: 1.5rem;
+}
+
+.resume-navigation .nav-item .nav-link {
+    background: none;
+    color: #6c757d;
+    border-radius: 0;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.resume-navigation .nav-item .nav-link .nav-number {
+    font-size: 0.85rem;
+    font-weight: 300;
+    opacity: 0.7;
+    margin-bottom: 0.25rem;
+}
+
+.resume-navigation .nav-item .nav-link .nav-label {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    letter-spacing: 1px;
+}
+
+/* Status Aktif dengan Gaya Garis Minimalis */
+.resume-navigation .nav-item .nav-link.active {
+    color: #ffc800 !important; /* Menyesuaikan warna kuning aksen bawaan tema utama Anda */
+    background: none;
+}
+
+.resume-navigation .nav-item .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #ffc800;
+}
+
+/* Pengaturan Konten Tab */
+.profile-content {
+    margin-top: 3rem;
+}
+
+.profile-content .section-intro {
+    margin-bottom: 2.5rem;
+}
+
+.profile-content .section-intro h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+/* Grid & Item Pengalaman Kerja */
+.experience-grid {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    border-left: 2px solid #e9ecef;
+    padding-left: 2rem;
+}
+
+.experience-item {
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.experience-item::before {
+    content: '';
+    position: absolute;
+    left: calc(-2rem - 6px);
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ffc800;
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 3px rgba(255, 200, 0, 0.2);
+}
+
+.experience-item h4 {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.experience-item .company {
+    font-weight: 600;
+}
+
+/* Penyelarasan Kategori Skill */
+.skill-category .card {
+    background-color: #f8f9fa;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.skill-category .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+}
+
+.skill-category h4 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.skill-tags .badge {
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-color: #dee2e6 !important;
+}
